@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebateMaster - AI Debate Platform</title>
+    <!-- Load Tailwind CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="/" class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-comments mr-2"></i> DebateMaster
+                </a>
+                <div class="flex items-center space-x-4">                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="hover:bg-indigo-500 px-3 py-2 rounded">
+                        <i class="fas fa-home mr-1"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('ai_config') }}" class="hover:bg-indigo-500 px-3 py-2 rounded">
+                        <i class="fas fa-cog mr-1"></i> AI Config
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="hover:bg-indigo-500 px-3 py-2 rounded">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="hover:bg-indigo-500 px-3 py-2 rounded">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Login
+                    </a>
+                    <a href="{{ url_for('register') }}" class="bg-indigo-800 hover:bg-indigo-700 px-3 py-2 rounded">
+                        <i class="fas fa-user-plus mr-1"></i> Register
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="mb-4 p-4 rounded-lg {{ 'bg-green-100 text-green-800' if category == 'success' else 'bg-red-100 text-red-800' }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    
+    <!-- Add message styling -->
+    <style>
+        .auth-message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            text-align: center;
+            transition: opacity 0.5s;
+        }
+        .auth-message.error {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .auth-message.info {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        .auth-message.success {
+            background-color: #D1FAE5;
+            color: #047857;
+        }
+    </style>
+</body>
+</html>

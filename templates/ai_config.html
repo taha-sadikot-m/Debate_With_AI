@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}AI Configuration{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md p-6 max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">AI Configuration</h1>
+        
+        <div class="mb-6 border-b pb-4">
+            <h2 class="text-xl font-semibold mb-2">Current Configuration</h2>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="flex flex-col">
+                    <span class="text-gray-600 font-medium">Debate AI Model:</span>
+                    <span class="text-gray-800">{{ config.debate_model }}</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-gray-600 font-medium">Gemini API Key:</span>
+                    <span class="text-gray-800">{{ 'Set' if config.api_key_set else 'Not Set' }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-2">Troubleshooting</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>
+                    If you're experiencing issues with the AI responses, ensure your API key has access to the 
+                    <span class="font-mono bg-gray-100 px-1 rounded">{{ config.debate_model }}</span> model.
+                </li>
+                <li>
+                    Some models require specific permissions or quotas from Google. Check your Google Cloud console 
+                    to verify model availability.
+                </li>
+                <li>
+                    For <span class="font-mono bg-gray-100 px-1 rounded">gemini-pro</span>, most API keys should have access.
+                </li>
+                <li>
+                    For <span class="font-mono bg-gray-100 px-1 rounded">gemini-1.5-pro</span>, you may need additional permissions.
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mt-8 flex justify-center">
+            <a href="{{ url_for('dashboard') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

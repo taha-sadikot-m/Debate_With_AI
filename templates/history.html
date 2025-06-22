@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">{{ debate.topic }}</h1>
+                <div class="flex items-center mt-2">
+                    <span class="px-3 py-1 bg-{{ 'green' if debate.user_position == 'for' else 'red' }}-100 text-{{ 'green' if debate.user_position == 'for' else 'red' }}-800 rounded-full text-sm font-medium">
+                        You: {{ 'In Favor' if debate.user_position == 'for' else 'Against' }}
+                    </span>
+                    <span class="ml-2 px-3 py-1 bg-{{ 'red' if debate.user_position == 'for' else 'green' }}-100 text-{{ 'red' if debate.user_position == 'for' else 'green' }}-800 rounded-full text-sm font-medium">
+                        AI: {{ 'Against' if debate.user_position == 'for' else 'In Favor' }}
+                    </span>
+                </div>
+            </div>
+            <span class="text-gray-500 text-sm">{{ debate.created_at.strftime('%B %d, %Y') }}</span>
+        </div>
+        
+        <div class="border-t border-gray-200 pt-4">
+            <div class="space-y-4">
+                {% for msg in debate.get_transcript() %}
+                <div class="flex {{ 'justify-end' if msg.speaker == 'user' else 'justify-start' }}">
+                    <div class="max-w-lg p-4 rounded-lg {{ 'bg-indigo-100' if msg.speaker == 'user' else 'bg-gray-100' }}">
+                        <div class="font-semibold {{ 'text-indigo-700' if msg.speaker == 'user' else 'text-gray-700' }}">
+                            <i class="{{ 'fas fa-user' if msg.speaker == 'user' else 'fas fa-robot' }} mr-2"></i>
+                            {{ 'You' if msg.speaker == 'user' else 'AI' }}
+                        </div>
+                        <div class="mt-1">{{ msg.text }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    {% if debate.evaluation %}
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Performance Evaluation</h2>
+        <div class="p-4 bg-blue-50 rounded-lg">
+            <pre class="whitespace-pre-wrap">{{ debate.evaluation }}</pre>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

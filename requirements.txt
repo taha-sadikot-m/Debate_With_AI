@@ -1,0 +1,24 @@
+# Flask and extensions
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Migrate
+Flask-SocketIO
+Authlib
+# Environment variables
+python-dotenv
+
+# AI Models
+openai
+google-generativeai
+
+# Speech Recognition and Text to Speech
+pyttsx3
+SpeechRecognition
+
+# Utilities
+requests
+Werkzeug
+itsdangerous
+Jinja2
+MarkupSafe
