@@ -18,6 +18,7 @@ python-dotenv
 # AI Models
 openai
 google-generativeai
+espeakng
 
 # Speech Recognition and Text to Speech
 pyttsx3
