@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h1 class="text-2xl font-bold text-indigo-700">
+                <i class="fas fa-chart-line mr-2"></i> Debate Evaluation
+            </h1>
+            <a href="{{ url_for('debate_history', debate_id=debate.id) }}" class="text-indigo-600 hover:text-indigo-800">
+                <i class="fas fa-eye mr-1"></i> View Debate
+            </a>
+        </div>
+        
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-semibold text-gray-800">{{ debate.topic }}</h2>
+                <span class="text-sm text-gray-500">{{ debate.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+            <div class="flex space-x-3">
+                <span class="px-3 py-1 bg-{{ 'green' if debate.user_position == 'for' else 'red' }}-100 text-{{ 'green' if debate.user_position == 'for' else 'red' }}-800 text-xs rounded-full">
+                    Your Position: {{ 'In Favor' if debate.user_position == 'for' else 'Against' }}
+                </span>
+                <span class="px-3 py-1 bg-{{ 'red' if debate.user_position == 'for' else 'green' }}-100 text-{{ 'red' if debate.user_position == 'for' else 'green' }}-800 text-xs rounded-full">
+                    AI Position: {{ 'Against' if debate.user_position == 'for' else 'In Favor' }}
+                </span>
+            </div>
+        </div>
+        
+        {% if evaluation %}
+            <div class="mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                        <span class="text-2xl font-bold text-indigo-700">{{ score }}</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Overall Score</h3>
+                        <p class="text-gray-600">Out of 100 points</p>
+                    </div>
+                </div>
+                
+                {% if breakdown %}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    {% for criterion, value in breakdown.items() %}
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-500 mb-1">{{ criterion }}</div>
+                        <div class="flex items-center">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: {{ value }}%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-gray-800">{{ value }}%</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% if strengths %}
+                    <div class="bg-green-50 p-5 rounded-lg border border-green-100">
+                        <h3 class="text-lg font-semibold text-green-800 mb-3">
+                            <i class="fas fa-check-circle mr-2"></i> Strengths
+                        </h3>
+                        <ul class="space-y-2">
+                            {% for strength in strengths %}
+                            <li class="flex">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>{{ strength }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    {% if improvements %}
+                    <div class="bg-amber-50 p-5 rounded-lg border border-amber-100">
+                        <h3 class="text-lg font-semibold text-amber-800 mb-3">
+                            <i class="fas fa-lightbulb mr-2"></i> Areas for Improvement
+                        </h3>
+                        <ul class="space-y-2">
+                            {% for improvement in improvements %}
+                            <li class="flex">
+                                <i class="fas fa-arrow-circle-up text-amber-500 mt-1 mr-2"></i>
+                                <span>{{ improvement }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if argument_analysis %}
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Argument Analysis</h3>
+                {% for argument in argument_analysis %}
+                <div class="bg-indigo-50 p-5 rounded-lg border border-indigo-100 mb-4">
+                    <div class="text-indigo-800 font-semibold mb-3">Argument: "{{ argument.excerpt }}"</div>
+                    <div class="pl-4 border-l-2 border-indigo-200 mb-3">
+                        <div class="text-gray-700 mb-2">
+                            <span class="font-medium">Feedback:</span> {{ argument.feedback }}
+                        </div>
+                        <div class="text-gray-700">
+                            <span class="font-medium">Suggestion:</span> {{ argument.suggestion }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% if final_remarks %}
+            <div class="mt-8 bg-blue-50 p-5 rounded-lg border border-blue-100">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">
+                    <i class="fas fa-comment-dots mr-2"></i> Final Remarks
+                </h3>
+                <div class="text-gray-700">
+                    {{ final_remarks }}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mt-8 border-t pt-4 flex justify-between">
+                <a href="{{ url_for('dashboard') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                </a>
+                <a href="{{ url_for('debate') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
+                    <i class="fas fa-plus mr-2"></i> New Debate
+                </a>
+            </div>
+        {% else %}
+            <div class="bg-red-50 text-red-700 p-5 rounded-lg border border-red-200">
+                <h3 class="font-bold mb-2">No evaluation available</h3>
+                <p>This debate hasn't been evaluated yet or an error occurred during evaluation.</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('debate.evaluate_debate', debate_id=debate.id) }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">
+                        Generate Evaluation
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

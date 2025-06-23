@@ -11,4 +11,4 @@ class Config:
     GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
     OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
     GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-    DEBATE_MODEL = "gemini-pro"  # Standard Gemini model that should be widely available
+    DEBATE_MODEL = "gemini-2.0-flash"  # Standard Gemini model that should be widely available

@@ -119,19 +119,13 @@ $(document).ready(function() {
             // Response handled through SocketIO
             $('#evaluate-btn').removeClass('hidden');
         });
-    });
-    
-    // End debate
+    });    // End debate
     $('#end-debate').click(function() {
-        $.get(`/debate/evaluate/${currentDebateId}`, function(evaluation) {
-            $('#debate-interface').addClass('hidden');
-            $('#evaluation-section').removeClass('hidden');
-            $('#evaluation-content').html(
-                `<div class="p-4 bg-blue-50 rounded-lg">
-                    <pre class="whitespace-pre-wrap">${evaluation}</pre>
-                </div>`
-            );
-        });
+        // Show loading message 
+        $('#evaluate-btn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i> Evaluating...');
+        
+        // Redirect to evaluation page
+        window.location.href = `/debate/evaluate/${currentDebateId}`;
     });
 });
 

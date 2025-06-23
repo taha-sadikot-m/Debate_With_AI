@@ -33,10 +33,13 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {{ debate.created_at.strftime('%Y-%m-%d') }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="{{ url_for('debate_history', debate_id=debate.id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
-                        <a href="{{ url_for('debate.evaluate_debate', debate_id=debate.id) }}" class="text-green-600 hover:text-green-900">Evaluate</a>
+                    </td>                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="{{ url_for('debate_history', debate_id=debate.id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                            <i class="fas fa-comments mr-1"></i> View
+                        </a>
+                        <a href="{{ url_for('debate.evaluate_debate', debate_id=debate.id) }}" class="text-green-600 hover:text-green-900">
+                            <i class="fas fa-chart-bar mr-1"></i> Evaluate
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}

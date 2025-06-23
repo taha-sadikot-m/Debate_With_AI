@@ -16,7 +16,8 @@ def init_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
-    socketio.init_app(app, async_mode='gevent')
+    # Use a more compatible async mode or let SocketIO choose the best available
+    socketio.init_app(app, async_mode=None)
     oauth.init_app(app)
     
     # Register OAuth providers

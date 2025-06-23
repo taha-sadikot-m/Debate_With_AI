@@ -172,20 +172,11 @@ $('#submit-argument').click(function() {
             alert("Error: " + error + ". Please try again.");
         }
     });
-});
-
-// End debate
-$('#end-debate').click(function() {
-    $.get(`/debate/evaluate/${debateId}`, function(evaluation) {
-        $('#debate-interface').addClass('hidden');
-        $('#evaluation-section').removeClass('hidden');
-        $('#evaluation-content').html(
-            `<div class="p-4 bg-blue-50 rounded-lg">
-                <pre class="whitespace-pre-wrap">${evaluation}</pre>
-            </div>`
-        );
+});    // End debate
+    $('#end-debate').click(function() {
+        // Instead of using AJAX, redirect to the evaluation page
+        window.location.href = `/debate/evaluate/${debateId}`;
     });
-});
 
 function addMessageToChat(speaker, text) {
     const isUser = speaker === 'user';

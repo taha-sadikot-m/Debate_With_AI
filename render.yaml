@@ -1,0 +1,16 @@
+services:
+  # Web service
+  - type: web
+    name: debate-ai-platform
+    env: python
+    buildCommand: ./render-build.sh
+    startCommand: gunicorn --worker-class eventlet -w 1 app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.12
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FLASK_ENV
+        value: production

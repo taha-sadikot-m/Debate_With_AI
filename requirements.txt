@@ -5,6 +5,13 @@ Flask-Login
 Flask-Migrate
 Flask-SocketIO
 Authlib
+
+# Server dependencies
+gunicorn
+eventlet
+gevent
+gevent-websocket
+
 # Environment variables
 python-dotenv
 

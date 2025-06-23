@@ -20,5 +20,9 @@ app.register_blueprint(debate_bp, url_prefix='/debate')
 # Import routes
 from routes import *
 
+# For gunicorn deployment
+application = app
+
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    # Use debug mode only in development
+    socketio.run(app, debug=app.config.get('DEBUG', True), host='0.0.0.0')
